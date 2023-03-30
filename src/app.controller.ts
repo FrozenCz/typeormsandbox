@@ -53,6 +53,7 @@ export class AppController {
   getCars(): any {
     return CarEntity.find()
   }
+  
 
   @Get('/car/:id')
   async getCar(

@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { CarEntity } from "./car.entity";
 
 
@@ -15,5 +15,7 @@ export class WheelEntity extends BaseEntity {
 
   @ManyToOne(() => CarEntity, car => car.id)
   car: CarEntity;
+  @Column()
+  carId: number;
 
 }

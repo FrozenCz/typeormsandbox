@@ -23,7 +23,7 @@ export class CarEntity extends BaseEntity {
   @Column()
   name: string;
 
-  @ManyToOne(() => ManufacturerEntity, manufacturer => manufacturer.id, {eager: true})
+  @ManyToOne(() => ManufacturerEntity, manufacturer => manufacturer.id)
   manufacturer: ManufacturerEntity
   @Column()
   manufacturerId: number;
@@ -36,10 +36,10 @@ export class CarEntity extends BaseEntity {
   })
   drivers: DriverEntity[];
 
-  @OneToMany(() => WheelEntity, wheel => wheel.car, {eager: true})
+  @OneToMany(() => WheelEntity, wheel => wheel.car)
   private wheels: WheelEntity[]
 
-  @OneToMany(() => SeatEntity, seat => seat.car, {eager: true})
+  @OneToMany(() => SeatEntity, seat => seat.car)
   private seats: SeatEntity[]
 
 }
