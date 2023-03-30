@@ -47,7 +47,7 @@ services:
       dockerfile: ./Dockerfile
     command: npm run start:debug
     ports:
-      - 3001:3001
+      - 3000:3000
       - 9249:9249
     volumes:
       - .:/usr/src/app
