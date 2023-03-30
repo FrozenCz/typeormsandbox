@@ -1,0 +1,15 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "typeOrmSandBox",
+      "Group": "Servers",
+      "Host": "typeOrmSandBox",
+      "Port": 5432,
+      "PasswordDB": "postgres",
+      "MaintenanceDB": "postgres",
+      "Username": "postgres",
+      "PassFile": "/pgpass",
+      "SSLMode": "prefer"
+    }
+  }
+}

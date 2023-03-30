@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: typeOrmSandBox
+    image: postgres:alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=typeOrmSandBox
+    volumes:
+      - ./db-init/init-schema.sh:/docker-entrypoint-initdb.d/init-schema.sh
+      - ./db-init/db.sql:/docker-entrypoint-initdb.d/db.sql
+      - postgres:/data/postgres
+    ports:
+      - 5432
+    #command: --init-file /data/application/db.sql
+    networks:
+      - dockerNet
+
+  pgadmin:
+    container_name: pgadmin_container_typeOrmSandBox
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - ./db-init/servers.json:/pgadmin4/servers.json
+      - ./db-init/pgpass:/pgpass
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    networks:
+      - dockerNet
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  dev:
+    container_name: typeOrmSandBox_api
+    image: docsys-api-dev:0.0.1
+    build:
+      context: .
+      target: development
+      dockerfile: ./Dockerfile
+    command: npm run start:debug
+    ports:
+      - 3001:3001
+      - 9229:9229
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - postgres
+      - pgadmin
+    restart: unless-stopped
+    networks:
+      - dockerNet
+
+networks:
+  dockerNet:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:
+  docSysDevel:
+
+
+
