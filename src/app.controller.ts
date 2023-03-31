@@ -137,6 +137,7 @@ export class AppController {
     carportEntity.manufacturer = manufacturer;
     carportEntity.serialNumber = post.serialNumber;
     return carportEntity.save();
+
   }
 
   @Get('/carport/:id')

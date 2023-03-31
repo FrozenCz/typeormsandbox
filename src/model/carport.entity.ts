@@ -1,24 +1,26 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { ManufacturerEntity } from "./manufacturer.entity";
 import { CarEntity } from "./car.entity";
 
 
-@Entity('carport')
-export class CarportEntity extends BaseEntity{
+@Entity("carport")
+export class CarportEntity extends BaseEntity {
 
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  serialNumber: string
+  serialNumber: string;
 
-  @ManyToOne(() => ManufacturerEntity, manufacturer => manufacturer.id)
-  private _manufacturer: ManufacturerEntity
+  @ManyToOne(() => ManufacturerEntity)
+  @JoinColumn({name: 'manufacturerId', referencedColumnName: 'id'})
+  private _manufacturer: ManufacturerEntity;
   @Column() manufacturerId: number;
 
-  @ManyToOne(() => CarEntity, car => car.id)
-  car: CarEntity
-  @Column() carId: number
+  @ManyToOne(() => CarEntity)
+  @JoinColumn({name: 'carId', referencedColumnName:'id'})
+  private _car: CarEntity;
+  @Column() carId: number;
 
 
   set manufacturer(value: ManufacturerEntity) {
@@ -26,7 +28,11 @@ export class CarportEntity extends BaseEntity{
   }
 
 
+  set car(value: CarEntity) {
+    this._car = value;
+  }
+
   getManufacturer(): Promise<ManufacturerEntity> {
-    return ManufacturerEntity.findOne({where: {id: this.manufacturerId}})
+    return ManufacturerEntity.findOne({ where: { id: this.manufacturerId } });
   }
 }
