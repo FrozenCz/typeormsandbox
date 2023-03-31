@@ -22,11 +22,9 @@ export class CarportEntity extends BaseEntity {
   private _car: CarEntity;
   @Column() carId: number;
 
-
   set manufacturer(value: ManufacturerEntity) {
     this._manufacturer = value;
   }
-
 
   set car(value: CarEntity) {
     this._car = value;
