@@ -6,6 +6,7 @@ import { CarEntity } from "./model/car.entity";
 import { In } from "typeorm";
 import { WheelEntity } from "./model/wheel.entity";
 import { SeatEntity } from "./model/seat.entity";
+import { CarportEntity } from "./model/carport.entity";
 
 @Controller()
 export class AppController {
@@ -119,6 +120,36 @@ export class AppController {
   @Get('/seat')
   getSeat(): Promise<any> {
     return SeatEntity.find();
+  }
+
+  @Post('/carport')
+  async createCarport(
+    @Body() post: {
+      serialNumber: string
+      carId: string
+      manufacturerId: string
+    }
+  ): Promise<any> {
+    const carportEntity = new CarportEntity();
+    const car = await CarEntity.findOne({where: {id: +post.carId}})
+    const manufacturer = await ManufacturerEntity.findOne({where: {id: +post.manufacturerId}})
+    carportEntity.car = car;
+    carportEntity.manufacturer = manufacturer;
+    carportEntity.serialNumber = post.serialNumber;
+    return carportEntity.save();
+  }
+
+  @Get('/carport/:id')
+  async getCarportById(
+    @Param('id', ParseIntPipe) id: number
+  ): Promise<any> {
+    const carport = await CarportEntity.findOne({where: {id}})
+    return carport;
+  }
+
+  @Get('/carport')
+  getCarport(): Promise<any> {
+    return CarportEntity.find();
   }
 
 
