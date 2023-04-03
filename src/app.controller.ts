@@ -52,7 +52,7 @@ export class AppController {
 
   @Get('/car')
   getCars(): any {
-    return CarEntity.find()
+    return CarEntity.find({relations: ['_drivers']})
   }
   
 

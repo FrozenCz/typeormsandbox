@@ -24,22 +24,30 @@ export class CarEntity extends BaseEntity {
   name: string;
 
   @ManyToOne(() => ManufacturerEntity, manufacturer => manufacturer.id)
-  manufacturer: ManufacturerEntity
+  private _manufacturer: ManufacturerEntity
   @Column()
   manufacturerId: number;
 
-  @ManyToMany(() => DriverEntity, {eager: true})
+  @ManyToMany(() => DriverEntity)
   @JoinTable({
     name: 'cars_drivers',
     inverseJoinColumn: {name: 'driver_id', referencedColumnName: 'id'},
     joinColumn: {name: 'car_id', referencedColumnName: 'id'}
   })
-  drivers: DriverEntity[];
+  private _drivers: DriverEntity[];
 
   @OneToMany(() => WheelEntity, wheel => wheel.car)
-  private wheels: WheelEntity[]
+  private _wheels: WheelEntity[]
 
   @OneToMany(() => SeatEntity, seat => seat.car)
-  private seats: SeatEntity[]
+  private _seats: SeatEntity[]
 
+
+  set drivers(value: DriverEntity[]) {
+    this._drivers = value;
+  }
+
+  set manufacturer(value: ManufacturerEntity) {
+    this._manufacturer = value;
+  }
 }
