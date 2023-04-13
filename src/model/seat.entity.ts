@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, RelationId } from "typeorm";
 import { CarEntity } from "./car.entity";
 
 
@@ -11,7 +11,9 @@ export class SeatEntity extends BaseEntity {
   @Column()
   color: string;
 
-  @ManyToOne(() => CarEntity, car => car.id)
+  @ManyToOne(() => CarEntity)
   car: CarEntity
+  @JoinColumn({name: 'carId', referencedColumnName: 'id'})
+  carId: number
 
 }

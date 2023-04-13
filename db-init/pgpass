@@ -1,1 +1,1 @@
-docsys_host:5432:docsys:postgres:postgres
+typeOrmSandBox:5432:postgres:postgres:postgres

@@ -7,6 +7,7 @@
       "Port": 5432,
       "PasswordDB": "postgres",
       "MaintenanceDB": "postgres",
+      "Schema": "public",
       "Username": "postgres",
       "PassFile": "/pgpass",
       "SSLMode": "prefer"

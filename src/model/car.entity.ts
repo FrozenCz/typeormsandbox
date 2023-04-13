@@ -12,6 +12,7 @@ import { ManufacturerEntity } from "./manufacturer.entity";
 import { DriverEntity } from "./driver.entity";
 import { SeatEntity } from "./seat.entity";
 import { WheelEntity } from "./wheel.entity";
+import { CarportEntity } from "./carport.entity";
 
 
 @Entity('car')
@@ -24,7 +25,7 @@ export class CarEntity extends BaseEntity {
   name: string;
 
   @ManyToOne(() => ManufacturerEntity, manufacturer => manufacturer.id)
-  private _manufacturer: ManufacturerEntity
+  manufacturer: ManufacturerEntity
   @Column()
   manufacturerId: number;
 
@@ -34,20 +35,17 @@ export class CarEntity extends BaseEntity {
     inverseJoinColumn: {name: 'driver_id', referencedColumnName: 'id'},
     joinColumn: {name: 'car_id', referencedColumnName: 'id'}
   })
-  private _drivers: DriverEntity[];
+  drivers: DriverEntity[];
 
   @OneToMany(() => WheelEntity, wheel => wheel.car)
-  private _wheels: WheelEntity[]
+  wheels: WheelEntity[]
 
   @OneToMany(() => SeatEntity, seat => seat.car)
-  private _seats: SeatEntity[]
+  seats: SeatEntity[]
+
+  @OneToMany(() => CarportEntity, carport => carport.car)
+  carport: CarportEntity[]
 
 
-  set drivers(value: DriverEntity[]) {
-    this._drivers = value;
-  }
 
-  set manufacturer(value: ManufacturerEntity) {
-    this._manufacturer = value;
-  }
 }
